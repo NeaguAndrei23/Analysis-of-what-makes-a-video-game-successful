@@ -38,10 +38,10 @@ The dataset is a `.csv` file containing video game data with columns such as:
   - `Reviews Total` — coerced to numeric
   - `Release Date` → `Release Year` — parsed datetime, extracted nullable int year
 - [x] Data preview and descriptive statistics displayed in app
+- [x] PRELIMINARY STEP: GeoPandas choropleth map (simulated revenue by region)
+- [x] Revenue distribution (EDA)
 
 ### To Do
-- [ ] PRELIMINARY STEP: GeoPandas choropleth map (simulated revenue by region)
-- [ ] Revenue distribution (EDA)
 - [ ] Revenue vs Number of Reviews
 - [ ] Revenue vs Review Score
 - [ ] Revenue vs Launch Price
