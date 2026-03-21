@@ -36,41 +36,45 @@ streamlit run app.py
 
 ## Revenue Distribution
 
-![Revenue Distribution](https://i.gyazo.com/cd4883279b7435e9d2c174eb42ac6ce5.png)(https://gyazo.com/cd4883279b7435e9d2c174eb42ac6ce5)
+[![Revenue Distribution](https://i.gyazo.com/cd4883279b7435e9d2c174eb42ac6ce5.png)](https://gyazo.com/cd4883279b7435e9d2c174eb42ac6ce5)
 
 ---
 
 ## Revenue vs Number of Reviews
 
-![Revenue vs Number of Reviews](https://i.gyazo.com/70b572f7120cce67afe3ec68544323a5.png)(https://gyazo.com/70b572f7120cce67afe3ec68544323a5)
+[![Revenue vs Number of Reviews](https://i.gyazo.com/70b572f7120cce67afe3ec68544323a5.png)](https://gyazo.com/70b572f7120cce67afe3ec68544323a5)
 
 ---
 
 ## Revenue vs Review Score
 
-![Revenue vs Review Score](https://i.gyazo.com/c81e7d0d9dd1268ed9a3b7f3c3cd1793.png)(https://gyazo.com/c81e7d0d9dd1268ed9a3b7f3c3cd1793)
+[![Revenue vs Review Score](https://i.gyazo.com/c81e7d0d9dd1268ed9a3b7f3c3cd1793.png)](https://gyazo.com/c81e7d0d9dd1268ed9a3b7f3c3cd1793)
 
 ---
 
 ## Revenue vs Launch Price
 
 
-![Revenue vs Launch Price](https://gyazo.com/c8561b2609f89651836d47603da0b2d5)
+[![Revenue vs Launch Price](https://i.gyazo.com/c8561b2609f89651836d47603da0b2d5.png)](https://gyazo.com/c8561b2609f89651836d47603da0b2d5)
 
 ---
 
 ## Revenue vs Genre / Tags
 
-![Revenue vs Genre and Tags]()
+[![Revenue vs Genre / Tags](https://i.gyazo.com/b3ea7adf37c528df580fc9a13fc72463.png)](https://gyazo.com/b3ea7adf37c528df580fc9a13fc72463)
 
 ---
 
 ## Revenue vs Release Year
 
-![Revenue vs Release Year]()
+[![Revenue vs Release Year](https://i.gyazo.com/468537d5f45f53b3b08dc78d1fff3c9d.png)](https://gyazo.com/468537d5f45f53b3b08dc78d1fff3c9d)
 
 ---
 
 ## Correlation Summary
 
-![Correlation Summary]()
+[![Correlation Summary Table](https://i.gyazo.com/1cd94814e25cfcb3cbb5eb856f39b1dc.png)](https://gyazo.com/1cd94814e25cfcb3cbb5eb856f39b1dc)
+
+---
+
+[![Correlation Matrix](https://i.gyazo.com/6d241c4c73cfb9951fdcceb62f600949.png)](https://gyazo.com/6d241c4c73cfb9951fdcceb62f600949)
