@@ -471,3 +471,74 @@ st.dataframe(
     .set_index("Year"),
     use_container_width=False,
 )
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 8 – Correlation Summary
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Correlation Summary")
+st.markdown(
+    "Spearman rank correlations between **log₁₀(Revenue Estimated)** and each numeric "
+    "predictor. Spearman is used throughout because revenue is heavily right-skewed. "
+    "All p-values are < 0.001 unless noted."
+)
+
+corr_df = df.dropna(subset=["Reviews Total", "Reviews Score Fancy", "Launch Price", "Release Year"]).copy()
+corr_df = corr_df[corr_df["Reviews Total"] > 0]
+log_rev_c = np.log10(corr_df["Revenue Estimated"])
+
+predictors = {
+    "Reviews Total (log₁₀)":  np.log10(corr_df["Reviews Total"]),
+    "Launch Price (log₁₀, paid only)": np.log10(corr_df["Launch Price"].where(corr_df["Launch Price"] > 0)),
+    "Review Score (%)":        corr_df["Reviews Score Fancy"],
+    "Release Year":            corr_df["Release Year"].astype(float),
+}
+
+rows = []
+for name, series in predictors.items():
+    mask = series.notna()
+    r, p = sp_stats.spearmanr(series[mask], log_rev_c[mask])
+    rows.append({
+        "Predictor": name,
+        "Spearman r": round(r, 3),
+        "N": mask.sum(),
+        "p-value": "< 0.001" if p < 0.001 else f"{p:.3f}",
+        "Strength": (
+            "Very strong" if abs(r) >= 0.7 else
+            "Strong"      if abs(r) >= 0.5 else
+            "Moderate"    if abs(r) >= 0.3 else
+            "Weak"
+        ),
+    })
+
+corr_summary = pd.DataFrame(rows).sort_values("Spearman r", ascending=False, key=abs)
+st.dataframe(corr_summary.set_index("Predictor"), use_container_width=True)
+
+# Heatmap of numeric correlations
+numeric_cols = ["Revenue Estimated", "Reviews Total", "Reviews Score Fancy", "Launch Price", "Release Year"]
+heat_df = df[numeric_cols].dropna().copy()
+heat_df = heat_df[heat_df["Reviews Total"] > 0]
+for col in ["Revenue Estimated", "Reviews Total"]:
+    heat_df[col] = np.log10(heat_df[col])
+heat_df["Launch Price"] = np.log10(heat_df["Launch Price"].where(heat_df["Launch Price"] > 0))
+heat_df = heat_df.dropna()
+heat_df.columns = ["log Revenue", "log Reviews", "Review Score", "log Price", "Release Year"]
+
+spearman_matrix = heat_df.corr(method="spearman")
+
+fig_heat, ax_heat = plt.subplots(figsize=(7, 5))
+im = ax_heat.imshow(spearman_matrix.values, cmap="coolwarm", vmin=-1, vmax=1)
+plt.colorbar(im, ax=ax_heat, label="Spearman r")
+ticks = range(len(spearman_matrix.columns))
+ax_heat.set_xticks(ticks)
+ax_heat.set_yticks(ticks)
+ax_heat.set_xticklabels(spearman_matrix.columns, rotation=30, ha="right", fontsize=9)
+ax_heat.set_yticklabels(spearman_matrix.columns, fontsize=9)
+for i in range(len(spearman_matrix)):
+    for j in range(len(spearman_matrix)):
+        ax_heat.text(j, i, f"{spearman_matrix.values[i, j]:.2f}",
+                     ha="center", va="center", fontsize=9,
+                     color="black" if abs(spearman_matrix.values[i, j]) < 0.7 else "white")
+ax_heat.set_title("Spearman Correlation Matrix (log-transformed where applicable)")
+fig_heat.tight_layout()
+st.pyplot(fig_heat)
+plt.close(fig_heat)
