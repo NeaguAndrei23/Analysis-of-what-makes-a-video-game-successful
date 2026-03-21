@@ -542,3 +542,97 @@ ax_heat.set_title("Spearman Correlation Matrix (log-transformed where applicable
 fig_heat.tight_layout()
 st.pyplot(fig_heat)
 plt.close(fig_heat)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Conclusion
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Conclusion")
+
+st.markdown(
+    """
+    ### What actually drives revenue on Steam?
+
+    Across 61,000+ games, the analysis consistently points to one dominant factor and several secondary ones.
+
+    ---
+
+    #### 1. Review count is by far the strongest predictor (r = 0.925)
+
+    The correlation between the number of reviews and revenue is near-perfect on a log scale.
+    This is not coincidental: Steam's revenue estimates are themselves partially derived from review counts
+    (via the Boxleiter ratio), but even accounting for that methodological dependency, the underlying
+    signal is real. Reviews are a proxy for the number of buyers, and more buyers means more revenue.
+    More importantly, review count compounds over time — a game that sells well attracts more reviews,
+    which boosts its Steam search ranking and visibility, which drives more sales. **Visibility and
+    social proof reinforce each other.**
+
+    ---
+
+    #### 2. Review score has almost no direct effect on revenue (r = 0.090)
+
+    This is the most counterintuitive finding. A game's percentage of positive reviews is barely
+    correlated with how much money it earns. The explanation is straightforward once considered:
+    a heavily marketed mediocre game can outsell a critically praised indie game by orders of magnitude.
+    Review score may act as a threshold (a game below ~60% will struggle), but above that threshold,
+    score does not meaningfully separate high-revenue games from low-revenue ones.
+    **Quality is necessary but not sufficient.**
+
+    ---
+
+    #### 3. Higher launch price correlates with higher revenue (r = 0.640)
+
+    Among paid games, price and revenue are strongly correlated. This reflects the fact that
+    higher-priced games ($20–$60) are generally higher-production titles with larger marketing
+    budgets and pre-existing audiences — factors that drive both the price justification and
+    the sales volume. It is also arithmetic: at the same number of units sold, a $30 game
+    earns three times what a $10 game earns.
+
+    ---
+
+    #### 4. Older games earn more — but not because age itself helps (r = −0.273)
+
+    Games released before 2015 show notably higher median revenues than recent releases.
+    The negative correlation with release year reflects two compounding effects: older games
+    have had more years to accumulate sales, and the Steam catalogue was far less crowded in
+    earlier years. In 2022 alone, over 8,000 games were released on Steam — making it
+    extremely difficult for any individual title to stand out. **The platform has become
+    progressively harder to succeed on as the number of competing titles has grown.**
+
+    ---
+
+    #### 5. Genre and tags signal longevity, not causation
+
+    Tags associated with the highest median revenues — Moddable, Remake, Cult Classic —
+    are not characteristics a developer can simply choose to apply. They describe games that
+    have already proven themselves over years of sustained player engagement. These tags
+    correlate with revenue because they appear on long-lived, beloved titles, not because
+    having them causes success.
+
+    ---
+
+    #### 6. The market is extremely concentrated
+
+    Half of all games with any recorded revenue earned **\$120 or less**. The 90th percentile
+    is approximately \$8,600. Only the top 1% of games reached roughly \$500,000 in estimated
+    revenue. This power-law distribution means that average revenue figures are deeply
+    misleading — a small number of titles account for the vast majority of total revenue on
+    the platform.
+
+    ---
+
+    ### Summary
+
+    | Factor | Spearman r | Verdict |
+    |---|:---:|---|
+    | Number of reviews (log) | **0.925** | Strongest driver — reflects visibility and sales volume |
+    | Launch price (log, paid) | 0.640 | Strong — higher-budget games price and sell higher |
+    | Release year | −0.273 | Weak negative — older games benefited from less competition |
+    | Review score (%) | 0.090 | Negligible — quality alone does not predict financial success |
+
+    A successful Steam game is not simply a well-reviewed game. It is a game that achieves
+    **visibility** — through marketing, prior franchise recognition, word of mouth, or
+    streamer exposure — that translates into review volume, which in turn sustains further
+    visibility. Review score and launch price matter at the margins, but they cannot substitute
+    for reach.
+    """
+)
