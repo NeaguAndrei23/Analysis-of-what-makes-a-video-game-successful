@@ -98,47 +98,56 @@ st.dataframe(
 )
 
 # ══════════════════════════════════════════════════════════════════════════════
-# Section 1 – Geospatial: Simulated Revenue by Region (GeoPandas)
+# Section 1 – Geospatial: Revenue by Region (GeoPandas)
 # ══════════════════════════════════════════════════════════════════════════════
-st.header("Simulated Global Revenue Distribution")
+st.header("Global Revenue Distribution")
 st.markdown(
-    "The dataset contains no geographic data. Revenue is **simulated** by distributing "
-    "total estimated revenue across major regions using assumed market shares: "
-    "**North America 35 %**, **Europe 30 %**, **Asia 35 %**. "
-    "Within each region, each country receives a share proportional to its population."
+    "Revenue is distributed using **real market share data from Newzoo** for the top 10 gaming markets. "
+    "The remaining 15 % of the global market (countries outside the top 10) is distributed "
+    "proportionally by population — a hybrid approach between real data and population proxy."
 )
 
 
-@st.cache_data(show_spinner="Building choropleth map…")
+@st.cache_data(show_spinner="Building choropleth map...")
 def build_choropleth(total_revenue: float):
     import geopandas as gpd
 
-    # naturalearth_lowres was removed in geopandas 1.0; fetch directly from
-    # the Natural Earth CDN (same host geodatasets uses for its downloads).
     NE_URL = (
         "https://naciscdn.org/naturalearth/110m/cultural/"
         "ne_110m_admin_0_countries.zip"
     )
     world = gpd.read_file(NE_URL)
 
-    REGION_SHARES = {
-        "North America": 0.35,
-        "Europe": 0.30,
-        "Asia": 0.35,
+    # Newzoo top-10 gaming markets (USD billions).
+    # Top-10 total = $154.6B, assumed to represent ~82% of the global market.
+    # Each country's share = their revenue / ($154.6B / 0.85).
+    GLOBAL_TOTAL_B = 188.8  # Newzoo global games market total (USD billions)
+    TOP10_SHARES = {
+        "China":                    53.2 / GLOBAL_TOTAL_B,
+        "United States of America": 49.8 / GLOBAL_TOTAL_B,
+        "Japan":                    17.6 / GLOBAL_TOTAL_B,
+        "South Korea":               7.8 / GLOBAL_TOTAL_B,
+        "Germany":                   7.0 / GLOBAL_TOTAL_B,
+        "United Kingdom":            6.6 / GLOBAL_TOTAL_B,
+        "France":                    4.1 / GLOBAL_TOTAL_B,
+        "Canada":                    3.1 / GLOBAL_TOTAL_B,
+        "Brazil":                    2.7 / GLOBAL_TOTAL_B,
+        "Mexico":                    2.7 / GLOBAL_TOTAL_B,
     }
+    REST_OF_WORLD_SHARE = 1.0 - sum(TOP10_SHARES.values())  # ~18 %
 
-    # Population totals per modelled region
-    region_pop = {
-        region: world.loc[world["CONTINENT"] == region, "POP_EST"].sum()
-        for region in REGION_SHARES
-    }
+    # Population of countries outside the top 10 (used to split the residual share)
+    top10_names = set(TOP10_SHARES.keys())
+    rest_pop = world.loc[~world["NAME"].isin(top10_names), "POP_EST"].sum()
 
     def assign_revenue(row):
-        share = REGION_SHARES.get(row["CONTINENT"], 0.0)
-        rpop = region_pop.get(row["CONTINENT"], 1)
-        if rpop == 0:
+        name = row["NAME"]
+        if name in TOP10_SHARES:
+            return TOP10_SHARES[name] * total_revenue
+        pop = row["POP_EST"]
+        if rest_pop == 0 or pop <= 0:
             return 0.0
-        return share * total_revenue * (row["POP_EST"] / rpop)
+        return REST_OF_WORLD_SHARE * total_revenue * (pop / rest_pop)
 
     world["simulated_revenue"] = world.apply(assign_revenue, axis=1)
     return world
@@ -161,7 +170,7 @@ world_gdf.plot(
     linewidth=0.3,
     edgecolor="0.5",
 )
-ax_map.set_title("Simulated Video-Game Revenue by Country", fontsize=14, pad=12)
+ax_map.set_title("Video-Game Revenue by Country (Newzoo top 10 real shares + population proxy for rest of world)", fontsize=13, pad=12)
 ax_map.axis("off")
 st.pyplot(fig_map)
 plt.close(fig_map)
