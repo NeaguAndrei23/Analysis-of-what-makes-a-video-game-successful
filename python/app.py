@@ -60,8 +60,9 @@ def load_data(path: str) -> pd.DataFrame:
     df["Reviews Total"] = pd.to_numeric(df["Reviews Total"], errors="coerce")
 
     # Release Year: parse date then extract year
-    df["Release Date"] = pd.to_datetime(df["Release Date"], errors="coerce")
+    df["Release Date"] = pd.to_datetime(df["Release Date"], dayfirst=True, errors="coerce")
     df["Release Year"] = df["Release Date"].dt.year.astype("Int64")
+    df["Release Date"] = df["Release Date"].dt.date
 
     # Keep only rows with positive revenue
     df = df.dropna(subset=["Revenue Estimated"])
@@ -84,7 +85,7 @@ st.markdown(
 
 st.subheader("Cleaned Data Preview")
 st.dataframe(df[["Title", "Revenue Estimated", "Reviews Total", "Reviews Score Fancy",
-                  "Launch Price", "Release Year", "Tags"]].head(50),
+                  "Launch Price", "Release Date", "Release Year", "Tags"]].head(50),
              use_container_width=True)
 
 st.subheader("Descriptive Statistics")
