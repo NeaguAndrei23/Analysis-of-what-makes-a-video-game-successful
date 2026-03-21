@@ -7,3 +7,5 @@ what metrics does a video game require to be considered "successful", based on t
 Make sure to run this command when running this project locally
 
 **pip install streamlit pandas numpy matplotlib seaborn geopandas mapclassify geodatasets**
+
+[![Image from Gyazo](https://i.gyazo.com/bdd57a7b8c577e3adba0f1e260dbcb89.png)](https://gyazo.com/bdd57a7b8c577e3adba0f1e260dbcb89)
