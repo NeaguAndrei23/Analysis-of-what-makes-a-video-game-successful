@@ -40,11 +40,11 @@ The dataset is a `.csv` file containing video game data with columns such as:
 - [x] Data preview and descriptive statistics displayed in app
 - [x] PRELIMINARY STEP: GeoPandas choropleth map (simulated revenue by region)
 - [x] Revenue distribution (EDA)
+- [x] Revenue vs Number of Reviews
+- [x] Revenue vs Review Score
+- [x] Revenue vs Launch Price
 
 ### To Do
-- [ ] Revenue vs Number of Reviews
-- [ ] Revenue vs Review Score
-- [ ] Revenue vs Launch Price
 - [ ] Revenue vs Genre / Tags
 - [ ] Revenue vs Release Year
 - [ ] Correlation summary

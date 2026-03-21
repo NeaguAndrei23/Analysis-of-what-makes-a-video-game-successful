@@ -214,3 +214,147 @@ pct_df = pd.DataFrame({
     "Revenue (USD)": [f"${df['Revenue Estimated'].quantile(p / 100):,.0f}" for p in pcts],
 })
 st.dataframe(pct_df, use_container_width=False, hide_index=True)
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 3 – Revenue vs Number of Reviews
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Revenue vs Number of Reviews")
+st.markdown(
+    "Both axes are on a log₁₀ scale. The hexbin density plot reveals the joint "
+    "distribution across all games; brighter cells contain more games."
+)
+
+rev_reviews = df.dropna(subset=["Reviews Total"]).copy()
+rev_reviews = rev_reviews[rev_reviews["Reviews Total"] > 0]
+
+log_rev_r = np.log10(rev_reviews["Revenue Estimated"])
+log_reviews = np.log10(rev_reviews["Reviews Total"])
+
+from scipy import stats as sp_stats
+r_rr, p_rr = sp_stats.spearmanr(log_reviews, log_rev_r)
+
+fig_rr, ax_rr = plt.subplots(figsize=(9, 6))
+hb = ax_rr.hexbin(log_reviews, log_rev_r, gridsize=50, cmap="YlOrRd", mincnt=1)
+plt.colorbar(hb, ax=ax_rr, label="Number of games")
+# OLS trend line
+m, b, *_ = sp_stats.linregress(log_reviews, log_rev_r)
+x_line = np.linspace(log_reviews.min(), log_reviews.max(), 200)
+ax_rr.plot(x_line, m * x_line + b, color="steelblue", linewidth=1.8, label=f"OLS fit  (slope={m:.2f})")
+ax_rr.set_xlabel("log₁₀(Reviews Total)")
+ax_rr.set_ylabel("log₁₀(Revenue Estimated USD)")
+ax_rr.set_title(f"Revenue vs Reviews Total  —  Spearman r = {r_rr:.3f}  (p {'< 0.001' if p_rr < 0.001 else f'= {p_rr:.3f}'})")
+ax_rr.legend()
+fig_rr.tight_layout()
+st.pyplot(fig_rr)
+plt.close(fig_rr)
+
+col1, col2 = st.columns(2)
+col1.metric("Spearman r", f"{r_rr:.3f}")
+col2.metric("Games included", f"{len(rev_reviews):,}")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 4 – Revenue vs Review Score
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Revenue vs Review Score")
+st.markdown(
+    "Left: hexbin density (log revenue vs review score %). "
+    "Right: median revenue by score band to show the central tendency."
+)
+
+rev_score = df.dropna(subset=["Reviews Score Fancy"]).copy()
+rev_score = rev_score[rev_score["Reviews Score Fancy"] > 0]
+
+log_rev_s = np.log10(rev_score["Revenue Estimated"])
+score = rev_score["Reviews Score Fancy"]
+
+r_rs, p_rs = sp_stats.spearmanr(score, log_rev_s)
+
+# Score bands
+bins_s = [0, 20, 40, 60, 70, 80, 90, 100]
+labels_s = ["0–20", "20–40", "40–60", "60–70", "70–80", "80–90", "90–100"]
+rev_score["Score Band"] = pd.cut(score, bins=bins_s, labels=labels_s, right=True)
+band_stats = (
+    rev_score.groupby("Score Band", observed=True)["Revenue Estimated"]
+    .agg(median="median", count="count")
+    .reset_index()
+)
+
+fig_rs, (ax_rs1, ax_rs2) = plt.subplots(1, 2, figsize=(14, 6))
+
+hb2 = ax_rs1.hexbin(score, log_rev_s, gridsize=40, cmap="YlOrRd", mincnt=1)
+plt.colorbar(hb2, ax=ax_rs1, label="Number of games")
+ax_rs1.set_xlabel("Review Score (%)")
+ax_rs1.set_ylabel("log₁₀(Revenue Estimated USD)")
+ax_rs1.set_title(f"Density  —  Spearman r = {r_rs:.3f}")
+
+ax_rs2.bar(band_stats["Score Band"].astype(str), band_stats["median"] / 1e6,
+           color="steelblue", edgecolor="white")
+for i, row in band_stats.iterrows():
+    ax_rs2.text(i, row["median"] / 1e6 + 0.02 * band_stats["median"].max() / 1e6,
+                f'n={row["count"]:,}', ha="center", va="bottom", fontsize=8)
+ax_rs2.set_xlabel("Score Band (%)")
+ax_rs2.set_ylabel("Median Revenue (USD millions)")
+ax_rs2.set_title("Median Revenue by Score Band")
+ax_rs2.tick_params(axis="x", rotation=30)
+
+fig_rs.tight_layout()
+st.pyplot(fig_rs)
+plt.close(fig_rs)
+
+col3, col4 = st.columns(2)
+col3.metric("Spearman r", f"{r_rs:.3f}")
+col4.metric("Games included", f"{len(rev_score):,}")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 5 – Revenue vs Launch Price
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Revenue vs Launch Price")
+st.markdown(
+    "Left: log-log hexbin for paid games (Launch Price > 0). "
+    "Right: median revenue by price tier (including free-to-play)."
+)
+
+rev_price = df.dropna(subset=["Launch Price"]).copy()
+
+# Price tiers (including free)
+price_bins = [-0.01, 0.0, 4.99, 9.99, 19.99, 29.99, np.inf]
+price_labels = ["Free", "$0.01–$4.99", "$5–$9.99", "$10–$19.99", "$20–$29.99", "$30+"]
+rev_price["Price Tier"] = pd.cut(rev_price["Launch Price"], bins=price_bins, labels=price_labels)
+
+tier_stats = (
+    rev_price.groupby("Price Tier", observed=True)["Revenue Estimated"]
+    .agg(median="median", count="count")
+    .reset_index()
+)
+
+paid = rev_price[rev_price["Launch Price"] > 0].copy()
+log_rev_p = np.log10(paid["Revenue Estimated"])
+log_price = np.log10(paid["Launch Price"])
+r_rp, p_rp = sp_stats.spearmanr(log_price, log_rev_p)
+
+fig_rp, (ax_rp1, ax_rp2) = plt.subplots(1, 2, figsize=(14, 6))
+
+hb3 = ax_rp1.hexbin(log_price, log_rev_p, gridsize=40, cmap="YlOrRd", mincnt=1)
+plt.colorbar(hb3, ax=ax_rp1, label="Number of games")
+ax_rp1.set_xlabel("log₁₀(Launch Price USD)")
+ax_rp1.set_ylabel("log₁₀(Revenue Estimated USD)")
+ax_rp1.set_title(f"Paid games only  —  Spearman r = {r_rp:.3f}")
+
+ax_rp2.bar(tier_stats["Price Tier"].astype(str), tier_stats["median"] / 1e6,
+           color="steelblue", edgecolor="white")
+for i, row in tier_stats.iterrows():
+    ax_rp2.text(i, row["median"] / 1e6 + 0.02 * tier_stats["median"].max() / 1e6,
+                f'n={row["count"]:,}', ha="center", va="bottom", fontsize=8)
+ax_rp2.set_xlabel("Price Tier")
+ax_rp2.set_ylabel("Median Revenue (USD millions)")
+ax_rp2.set_title("Median Revenue by Price Tier")
+ax_rp2.tick_params(axis="x", rotation=30)
+
+fig_rp.tight_layout()
+st.pyplot(fig_rp)
+plt.close(fig_rp)
+
+col5, col6, col7 = st.columns(3)
+col5.metric("Spearman r (paid)", f"{r_rp:.3f}")
+col6.metric("Paid games", f"{len(paid):,}")
+col7.metric("Free-to-play games", f"{len(rev_price[rev_price['Launch Price'] == 0]):,}")
