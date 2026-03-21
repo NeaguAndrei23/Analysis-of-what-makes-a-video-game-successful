@@ -43,10 +43,10 @@ The dataset is a `.csv` file containing video game data with columns such as:
 - [x] Revenue vs Number of Reviews
 - [x] Revenue vs Review Score
 - [x] Revenue vs Launch Price
+- [x] Revenue vs Genre / Tags
+- [x] Revenue vs Release Year
 
 ### To Do
-- [ ] Revenue vs Genre / Tags
-- [ ] Revenue vs Release Year
 - [ ] Correlation summary
 
 ---

@@ -358,3 +358,116 @@ col5, col6, col7 = st.columns(3)
 col5.metric("Spearman r (paid)", f"{r_rp:.3f}")
 col6.metric("Paid games", f"{len(paid):,}")
 col7.metric("Free-to-play games", f"{len(rev_price[rev_price['Launch Price'] == 0]):,}")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 6 – Revenue vs Genre / Tags
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Revenue vs Genre / Tags")
+st.markdown(
+    "Each Steam game can have multiple tags. Tags are exploded so every game "
+    "contributes to each of its tags. Only tags with **≥ 200 games** are shown "
+    "to ensure statistical reliability. "
+    "Left: top 25 tags by **median revenue**. Right: top 25 tags by **game count**."
+)
+
+tags_df = df[["Title", "Revenue Estimated", "Tags"]].copy()
+tags_df["Tags"] = tags_df["Tags"].astype(str).str.split(",")
+tags_exploded = tags_df.explode("Tags")
+tags_exploded["Tags"] = tags_exploded["Tags"].str.strip()
+tags_exploded = tags_exploded[tags_exploded["Tags"] != ""]
+
+tag_stats = (
+    tags_exploded.groupby("Tags")["Revenue Estimated"]
+    .agg(median="median", count="count")
+    .reset_index()
+)
+tag_stats = tag_stats[tag_stats["count"] >= 200].sort_values("median", ascending=False)
+
+top_by_median = tag_stats.head(25).sort_values("median")
+top_by_count = tag_stats.sort_values("count", ascending=False).head(25).sort_values("count")
+
+fig_tags, (ax_t1, ax_t2) = plt.subplots(1, 2, figsize=(16, 9))
+
+ax_t1.barh(top_by_median["Tags"], top_by_median["median"] / 1e6, color="steelblue")
+ax_t1.set_xlabel("Median Revenue (USD millions)")
+ax_t1.set_title("Top 25 Tags by Median Revenue")
+
+ax_t2.barh(top_by_count["Tags"], top_by_count["count"], color="darkorange")
+ax_t2.set_xlabel("Number of Games")
+ax_t2.set_title("Top 25 Tags by Game Count")
+
+fig_tags.tight_layout()
+st.pyplot(fig_tags)
+plt.close(fig_tags)
+
+col8, col9 = st.columns(2)
+col8.metric("Unique tags (≥ 200 games)", f"{len(tag_stats):,}")
+col9.metric("Tag appearances total", f"{len(tags_exploded):,}")
+
+# ══════════════════════════════════════════════════════════════════════════════
+# Section 7 – Revenue vs Release Year
+# ══════════════════════════════════════════════════════════════════════════════
+st.header("Revenue vs Release Year")
+st.markdown(
+    "Filtered to **2005 – 2023** (the main Steam era with sufficient game counts). "
+    "Bars show median revenue; the line shows the number of games released that year."
+)
+
+rev_year = df.dropna(subset=["Release Year"]).copy()
+rev_year = rev_year[
+    (rev_year["Release Year"] >= 2005) & (rev_year["Release Year"] <= 2023)
+]
+
+year_stats = (
+    rev_year.groupby("Release Year")["Revenue Estimated"]
+    .agg(median="median", count="count")
+    .reset_index()
+)
+year_stats["Release Year"] = year_stats["Release Year"].astype(int)
+
+fig_yr, ax_yr1 = plt.subplots(figsize=(14, 6))
+ax_yr2 = ax_yr1.twinx()
+
+ax_yr1.bar(year_stats["Release Year"], year_stats["median"],
+           color="steelblue", alpha=0.75, label="Median Revenue")
+ax_yr2.plot(year_stats["Release Year"], year_stats["count"],
+            color="darkorange", linewidth=2, marker="o", markersize=4, label="Game Count")
+
+ax_yr1.set_xlabel("Release Year")
+ax_yr1.set_ylabel("Median Revenue (USD)", color="steelblue")
+ax_yr2.set_ylabel("Number of Games Released", color="darkorange")
+ax_yr1.tick_params(axis="y", labelcolor="steelblue")
+ax_yr2.tick_params(axis="y", labelcolor="darkorange")
+ax_yr1.set_title("Median Revenue and Game Count by Release Year (2005–2023)")
+ax_yr1.set_xticks(year_stats["Release Year"])
+ax_yr1.tick_params(axis="x", rotation=45)
+
+lines1, labels1 = ax_yr1.get_legend_handles_labels()
+lines2, labels2 = ax_yr2.get_legend_handles_labels()
+ax_yr1.legend(lines1 + lines2, labels1 + labels2, loc="upper left")
+
+fig_yr.tight_layout()
+st.pyplot(fig_yr)
+plt.close(fig_yr)
+
+best_year = year_stats.loc[year_stats["median"].idxmax()]
+worst_year = year_stats.loc[year_stats["median"].idxmin()]
+busiest_year = year_stats.loc[year_stats["count"].idxmax()]
+
+col10, col11, col12 = st.columns(3)
+col10.metric("Highest median revenue year", f"{int(best_year['Release Year'])}",
+             f"${best_year['median']:,.0f} median")
+col11.metric("Lowest median revenue year", f"{int(worst_year['Release Year'])}",
+             f"${worst_year['median']:,.0f} median")
+col12.metric("Most games released", f"{int(busiest_year['Release Year'])}",
+             f"{int(busiest_year['count']):,} games")
+
+st.dataframe(
+    year_stats.rename(columns={
+        "Release Year": "Year",
+        "median": "Median Revenue (USD)",
+        "count": "Games Released",
+    }).assign(**{"Median Revenue (USD)": lambda d: d["Median Revenue (USD)"].map("${:,.0f}".format)})
+    .set_index("Year"),
+    use_container_width=False,
+)
