@@ -1,6 +1,6 @@
 # Analysis of What Makes a Video Game Successful
 
-An analysis done in Python and SAS on a dataset of 61,216 video games listed on the Steam platform.
+An analysis done in Python and SAS(not yet done) on a dataset of 61,216 video games listed on the Steam platform.
 The goal is to identify what metrics a video game requires to be considered "successful", measured primarily by estimated revenue.
 
 **Live app:** [Open on Streamlit Cloud](https://neaguandrei23-analysis-of-what-makes-a-video-g-pythonapp-eug4n3.streamlit.app/)
