@@ -119,8 +119,8 @@ def build_choropleth(total_revenue: float):
     world = gpd.read_file(NE_URL)
 
     # Newzoo top-10 gaming markets (USD billions).
-    # Top-10 total = $154.6B, assumed to represent ~82% of the global market.
-    # Each country's share = their revenue / ($154.6B / 0.85).
+    # Top-10 total = $188.8B, assumed to represent ~82% of the global market.
+    # Each country's share = their revenue / ($188.8B / 0.85).
     GLOBAL_TOTAL_B = 188.8  # Newzoo global games market total (USD billions)
     TOP10_SHARES = {
         "China":                    53.2 / GLOBAL_TOTAL_B,
@@ -552,7 +552,7 @@ st.markdown(
     """
     ### What actually drives revenue on Steam?
 
-    Across 61,000+ games, the analysis consistently points to one dominant factor and several secondary ones.
+    Across 55 000+ games, the analysis consistently points to one dominant factor and several secondary ones.
 
     ---
 
