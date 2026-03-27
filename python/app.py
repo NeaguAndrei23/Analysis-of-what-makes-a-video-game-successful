@@ -584,8 +584,8 @@ st.markdown(
     Among paid games, price and revenue are strongly correlated. This reflects the fact that
     higher-priced games ($20–$60) are generally higher-production titles with larger marketing
     budgets and pre-existing audiences — factors that drive both the price justification and
-    the sales volume. It is also arithmetic: at the same number of units sold, a $30 game
-    earns three times what a $10 game earns.
+    the sales volume. It is also arithmetic: at the same number of units sold, a \$30 game
+    earns three times what a \$10 game earns.
 
     ---
 
