@@ -112,11 +112,11 @@ DATA step that converts character columns (`Revenue Estimated`, `Reviews Score F
 
 Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readable output. `PROC MEANS` computes descriptive statistics for all key variables. `PROC FREQ` shows the distribution of games across revenue tiers. `PROC TABULATE` cross-tabulates median revenue by review score band and price tier.
 
-![Descriptive Statistics](placeholder)
+![Descriptive Statistics](https://i.imgur.com/80mS8zi.png)
 
-![Revenue Tier Frequency](placeholder)
+![Revenue Tier Frequency](https://i.imgur.com/ALIhyHN.png)
 
-![Revenue by Score and Price](placeholder)
+![Revenue by Score and Price](https://i.imgur.com/7ABlP8B.png)
 
 ---
 
