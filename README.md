@@ -191,11 +191,13 @@ A DATA step uses arrays to flag each game as high or low performing across three
 
 **Year Summary Table**
 
-![Year Summary Table](placeholder)
+![Year Summary Table Part 1](https://i.imgur.com/4NuXYVK.png)
+
+![Year Summary Table Part 2](https://i.imgur.com/poTA8UF.png)
 
 **Enriched Dataset Preview**
 
-![Enriched Dataset Preview](placeholder)
+![Enriched Dataset Preview](https://i.imgur.com/ozf3p8n.png)
 
 ---
 
