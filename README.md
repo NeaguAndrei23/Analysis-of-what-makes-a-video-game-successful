@@ -141,19 +141,19 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 **Revenue Distribution Histogram**
 
-![Revenue Distribution Histogram](placeholder)
+![Revenue Distribution Histogram](https://i.imgur.com/3bBVQIt.png)
 
 **Median Revenue by Score Band**
 
-![Median Revenue by Score Band](placeholder)
+![Median Revenue by Score Band](https://i.imgur.com/JVXA58g.png)
 
 **Median Revenue by Price Tier**
 
-![Median Revenue by Price Tier](placeholder)
+![Median Revenue by Price Tier](https://i.imgur.com/jHa6g4t.png)
 
 **Review Score vs Revenue Scatter**
 
-![Review Score vs Revenue Scatter](placeholder)
+![Review Score vs Revenue Scatter](https://i.imgur.com/hbriL6Z.png)
 
 ---
 
