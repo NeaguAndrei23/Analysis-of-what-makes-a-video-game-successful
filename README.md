@@ -153,7 +153,7 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 **Review Score vs Revenue Scatter**
 
-![Review Score vs Revenue Scatter](https://i.imgur.com/hbriL6Z.png)
+![Review Score vs Revenue Scatter](https://i.imgur.com/U78ZBDs.png)
 
 ---
 
