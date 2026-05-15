@@ -48,8 +48,7 @@ RUN;
 
 *Scatter plot of Review Score vs Revenue Estimated;
 PROC SGPLOT DATA=work.steam;
-    SCATTER X=Review_Score Y=Revenue_Estimated / MARKERATTRS=(SIZE=3 COLOR=gray SYMBOL=circlefilled) TRANSPARENCY=0.7;
-    LOESS X=Review_Score Y=Revenue_Estimated / LINEATTRS=(COLOR=red THICKNESS=2);
+    SCATTER X=Review_Score Y=Revenue_Estimated / MARKERATTRS=(SIZE=3 COLOR=steelblue SYMBOL=circlefilled) TRANSPARENCY=0.7;
     YAXIS TYPE=log LABEL="Revenue Estimated (log scale)";
     XAXIS LABEL="Review Score";
     TITLE "Review Score vs Revenue Estimated";
