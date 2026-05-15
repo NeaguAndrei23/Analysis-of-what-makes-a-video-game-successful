@@ -163,11 +163,11 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 **Spearman Correlations**
 
-![Spearman Correlations](placeholder)
+![Spearman Correlations](https://i.imgur.com/5EbSHIP.png)
 
 **Regression Output**
 
-![Regression Output](placeholder)
+![Regression Output](https://i.imgur.com/pipEu07.png)
 
 ---
 
