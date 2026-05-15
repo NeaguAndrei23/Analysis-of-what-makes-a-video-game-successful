@@ -1,12 +1,17 @@
 *Graphical analysis of revenue and its predictors;
 *Facility: generating graphs (PROC SGPLOT);
 
-*Histogram of revenue on a log scale to handle extreme skew;
-PROC SGPLOT DATA=work.steam;
-    HISTOGRAM Revenue_Estimated;
-    XAXIS TYPE=log LABEL="Revenue Estimated (log scale)";
+*Histogram of revenue - log-transform first so bins are meaningful;
+DATA work.steam_log_plot;
+    SET work.steam;
+    Log10_Revenue = LOG10(Revenue_Estimated);
+RUN;
+
+PROC SGPLOT DATA=work.steam_log_plot;
+    HISTOGRAM Log10_Revenue;
+    XAXIS LABEL="Log10(Revenue Estimated)" VALUES=(3 4 5 6 7 8);
     YAXIS LABEL="Number of Games";
-    TITLE "Distribution of Estimated Revenue";
+    TITLE "Distribution of Estimated Revenue (Log10 Scale)";
 RUN;
 
 *Median revenue by review score band;
