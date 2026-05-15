@@ -137,7 +137,7 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 ### Graphical Analysis
 
-`PROC SGPLOT` generates four charts: a log-scale histogram of revenue distribution, a bar chart of median revenue by review score band, a bar chart of median revenue by price tier, and a scatter plot of review score vs revenue with a LOESS smoothing line.
+`PROC SGPLOT` generates four charts: a log-scale histogram of revenue distribution, a bar chart of median revenue by review score band, a bar chart of median revenue by price tier, and a scatter plot of review score vs revenue.
 
 **Revenue Distribution Histogram**
 
