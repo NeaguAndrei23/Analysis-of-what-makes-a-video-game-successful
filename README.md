@@ -207,12 +207,12 @@ A binary target (`High_Revenue = 1` if revenue ≥ $100k) is created, then two m
 
 **Target Class Distribution**
 
-![Target Class Distribution](placeholder)
+![Target Class Distribution](https://i.imgur.com/kRQrjPI.png)
 
 **Decision Tree**
 
-![Decision Tree](placeholder)
+![Decision Tree](https://i.imgur.com/NzybecQ.png)
 
 **Random Forest Variable Importance**
 
-![Random Forest Variable Importance](placeholder)
+![Random Forest Variable Importance](https://i.imgur.com/ifnPHtt.png)
