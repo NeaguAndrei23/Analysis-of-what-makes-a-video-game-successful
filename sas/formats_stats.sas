@@ -41,7 +41,6 @@ PROC TABULATE DATA=work.steam;
     VAR Revenue_Estimated;
     FORMAT Review_Score score_band. 'Launch Price'n price_tier.;
     TABLE Review_Score ALL,
-          'Launch Price'n ALL,
-          Revenue_Estimated * (N MEDIAN) / BOX="Revenue by Score Band and Price Tier";
+          'Launch Price'n ALL * Revenue_Estimated * (N MEDIAN) / BOX="Revenue by Score Band and Price Tier";
     TITLE "Revenue Summary by Review Score Band and Price Tier";
 RUN;
