@@ -1,6 +1,6 @@
 # Analysis of What Makes a Video Game Successful
 
-An analysis done in Python and SAS(not yet done) on a dataset of 61,216 video games listed on the Steam platform.
+An analysis done in Python and SAS on a dataset of 61,216 video games listed on the Steam platform.
 The goal is to identify what metrics a video game requires to be considered "successful", measured primarily by estimated revenue.
 
 **Live app:** [Open on Streamlit Cloud](https://neaguandrei23-analysis-of-what-makes-a-video-g-pythonapp-eug4n3.streamlit.app/)
@@ -80,3 +80,20 @@ streamlit run app.py
 ---
 
 [![Correlation Matrix](https://i.gyazo.com/6d241c4c73cfb9951fdcceb62f600949.png)](https://gyazo.com/6d241c4c73cfb9951fdcceb62f600949)
+
+---
+
+## SAS Analysis
+
+The SAS part of the project mirrors the Python analysis, applied to the same Steam dataset.
+Scripts are located in the `sas/` folder and were run on SAS OnDemand for Academics.
+
+---
+
+### Data Import
+
+Imports the raw CSV into a SAS dataset using `PROC IMPORT`, then verifies the structure with `PROC CONTENTS` and previews the first rows with `PROC PRINT`.
+
+![Variable Overview](https://i.imgur.com/2bGc3xn.png)
+
+![First 10 Rows](https://i.imgur.com/ASNbeQ1.png)
