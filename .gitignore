@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# VS Code 
+.vscode/launch.json
+.vscode/*.code-workspace
+.vscode/.sasproperties
+
+.vscode/sas-profiles.json
+*.sas7bdat
+
+# OS
+.DS_Store
+Thumbs.db
+
