@@ -97,3 +97,11 @@ Imports the raw CSV into a SAS dataset using `PROC IMPORT`, then verifies the st
 ![Variable Overview](https://i.imgur.com/2bGc3xn.png)
 
 ![First 10 Rows](https://i.imgur.com/ASNbeQ1.png)
+
+---
+
+### Data Cleaning
+
+DATA step that converts character columns (`Revenue Estimated`, `Reviews Score Fancy`) to numeric using `COMPRESS` and `INPUT`, extracts `Release_Year` from the parsed date, sets missing launch prices to 0, and filters to games with positive revenue only.
+
+![Cleaned Preview](https://i.imgur.com/Nv5DIXF.png)
