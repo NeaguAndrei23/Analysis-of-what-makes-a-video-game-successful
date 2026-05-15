@@ -177,11 +177,11 @@ A DATA step uses arrays to flag each game as high or low performing across three
 
 **High-Performance Count Distribution**
 
-![High-Performance Count Distribution](placeholder)
+![High-Performance Count Distribution](https://i.imgur.com/fW8NB3F.png)
 
 **Mean Revenue by High-Performance Count**
 
-![Mean Revenue by High-Performance Count](placeholder)
+![Mean Revenue by High-Performance Count](https://i.imgur.com/bHaX62I.png)
 
 ---
 
