@@ -93,7 +93,7 @@ Scripts are located in the `sas/` folder and were run on SAS OnDemand for Academ
 
 ---
 
-### Data Import
+## Data Import
 
 Imports the raw CSV into a SAS dataset using `PROC IMPORT`, then verifies the structure with `PROC CONTENTS` and previews the first rows with `PROC PRINT`.
 
@@ -107,7 +107,7 @@ Imports the raw CSV into a SAS dataset using `PROC IMPORT`, then verifies the st
 
 ---
 
-### Data Cleaning
+## Data Cleaning
 
 DATA step that converts character columns (`Revenue Estimated`, `Reviews Score Fancy`) to numeric using `COMPRESS` and `INPUT`, extracts `Release_Year` from the parsed date, sets missing launch prices to 0, and filters to games with positive revenue only.
 
@@ -117,7 +117,7 @@ DATA step that converts character columns (`Revenue Estimated`, `Reviews Score F
 
 ---
 
-### Formats, Descriptive Statistics, and Tabular Reporting
+## Formats, Descriptive Statistics, and Tabular Reporting
 
 Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readable output. `PROC MEANS` computes descriptive statistics for all key variables. `PROC FREQ` shows the distribution of games across revenue tiers. `PROC TABULATE` cross-tabulates median revenue by review score band and price tier.
 
@@ -135,7 +135,7 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 ---
 
-### Graphical Analysis
+## Graphical Analysis
 
 `PROC SGPLOT` generates four charts: a log-scale histogram of revenue distribution, a bar chart of median revenue by review score band, a bar chart of median revenue by price tier, and a scatter plot of review score vs revenue.
 
@@ -157,7 +157,7 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 ---
 
-### Correlation and Regression
+## Correlation and Regression
 
 `PROC CORR` computes Spearman correlations between revenue and the three numeric predictors (reviews total, review score, launch price), mirroring the Python app results. `PROC REG` fits a multiple linear regression on log-transformed revenue to quantify each predictor's contribution.
 
@@ -171,7 +171,7 @@ Defines user-defined formats (`rev_tier`, `price_tier`, `score_band`) for readab
 
 ---
 
-### Array-Based Performance Flagging
+## Array-Based Performance Flagging
 
 A DATA step uses arrays to flag each game as high or low performing across three metrics simultaneously (revenue, review score, launch price), then counts how many metrics each game scores high on. `PROC FREQ` and `PROC MEANS` summarise the results.
 
@@ -185,7 +185,7 @@ A DATA step uses arrays to flag each game as high or low performing across three
 
 ---
 
-### Combining Datasets
+## Combining Datasets
 
 `PROC SQL` aggregates the dataset into a year-level summary (game count, median and mean revenue per year). A `MERGE` then attaches those year-level figures back to each individual game row, enriching the dataset for further analysis.
 
@@ -201,7 +201,7 @@ A DATA step uses arrays to flag each game as high or low performing across three
 
 ---
 
-### Machine Learning
+## Machine Learning
 
 A binary target (`High_Revenue = 1` if revenue ≥ $100k) is created, then two models are trained. `PROC HPSPLIT` builds a pruned decision tree showing which variables split the data most cleanly. `PROC HPFOREST` trains a random forest and produces a variable importance table ranking `Reviews_Total`, `Review_Score`, `Launch_Price`, and `Release_Year` by predictive power.
 
